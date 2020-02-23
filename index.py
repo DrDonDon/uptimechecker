@@ -44,6 +44,6 @@ try:
         s = {'isup': 1}
     else:
         s = {'isup': 0}
-    amphora_api.amphorae_upload_signal(id, request_body=s)
+    amphora_api.amphorae_signals_upload_signal(id, request_body=s)
 except ApiException as e:
     print("Exception when calling AmphoraeApi: %s\n" % e)
