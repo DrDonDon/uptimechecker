@@ -25,7 +25,7 @@ else:
 
 # Set up connection to amphoradata.com
 # provide your login credentials
-credentials = Credentials(username="isaac@amphoradata.com", password="#EDCft6yhn")
+credentials = Credentials(username=os.getenv('username'), password=os.getenv('password'))
 # create a client for interacting with the public Amphora Data Repository
 client = AmphoraDataRepositoryClient(credentials)
 
