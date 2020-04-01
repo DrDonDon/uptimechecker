@@ -4,10 +4,9 @@ load_dotenv()
 import requests
 import time
 import os
-from amphora.client import AmphoraDataRepositoryClient, Credentials
-import amphora_api_client as a10a
-from amphora_api_client.rest import ApiException
-from amphora_api_client.configuration import Configuration
+import amphora_client
+from amphora_client.rest import ApiException
+from amphora_client.configuration import Configuration
 
 ad_url = "https://beta.amphoradata.com/healthz"
 id = "a6f2a8b4-0c72-402e-b820-90aedecea14f"
@@ -23,14 +22,14 @@ if (isup_status):
 else:
     print("It ain't up")
 
-# Set up connection to amphoradata.com
-# provide your login credentials
-credentials = Credentials(username=os.getenv('username'), password=os.getenv('password'))
-# create a client for interacting with the public Amphora Data Repository
-client = AmphoraDataRepositoryClient(credentials)
+configuration = Configuration()
+auth_api = amphora_client.AuthenticationApi(amphora_client.ApiClient(configuration))
+token_request = amphora_client.TokenRequest(username=os.getenv('username'), password=os.getenv('password') )
 
 try:
     # Gets a token
+    res = auth_api.authentication_request_token(token_request = token_request)
+    configuration.api_key["Authorization"] = "Bearer " + res
     # create an instance of the Users API, now with Bearer token
     users_api = amphora_client.UsersApi(amphora_client.ApiClient(configuration))
     me = users_api.users_read_self()
@@ -38,13 +37,13 @@ try:
 except ApiException as e:
     print("Exception when calling AuthenticationAPI: %s\n" % e)
 
-amphora_api = a10a.AmphoraeApi(client.apiClient)
+amphora_api = amphora_client.AmphoraeApi(amphora_client.ApiClient(configuration))
 
 try:
     if (isup_status):
         s = {'isup': 1}
     else:
         s = {'isup': 0}
-    amphora_api.push_signals_dict_array(request_body=s)
+    amphora_api.amphorae_signals_upload_signal(id, request_body=s)
 except ApiException as e:
     print("Exception when calling AmphoraeApi: %s\n" % e)
