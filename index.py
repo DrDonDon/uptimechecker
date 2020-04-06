@@ -33,7 +33,7 @@ if (isup_status):
 else:
     print("It ain't up")
 
-credentials = Credentials(username==os.getenv('username'), password=os.getenv('password'))
+credentials = Credentials(username=os.getenv('username'), password=os.getenv('password'))
 client = AmphoraDataRepositoryClient(credentials)
 
 
