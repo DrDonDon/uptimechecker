@@ -16,6 +16,8 @@ from amphora.client import AmphoraDataRepositoryClient, Credentials
 import amphora_api_client as a10a
 from amphora_api_client.rest import ApiException
 from amphora_api_client.configuration import Configuration
+import pandas as pd
+import numpy as np
 
 ad_url = "https://beta.amphoradata.com/healthz"
 id = "a6f2a8b4-0c72-402e-b820-90aedecea14f"
