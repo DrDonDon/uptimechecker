@@ -4,3 +4,5 @@ requests
 python-dotenv
 numpy
 pandas
+mlflow
+timeit
