@@ -18,6 +18,16 @@ from amphora_api_client.rest import ApiException
 from amphora_api_client.configuration import Configuration
 import pandas as pd
 import numpy as np
+import timeit
+import mlflow
+
+start = timeit.timeit()
+sep='_'
+mlflow.set_tracking_uri("http://aci-mlflow-dns.australiaeast.azurecontainer.io:5000/")
+runName = sep.join(['Job_at',str(datetime.utcnow())])
+mlflow.start_run(experiment_id=1, run_name =runName)
+mlflow.log_metric("run_complete",0)
+mlflow.log_metric("time_to_complete", 0)
 
 ad_url = "https://beta.amphoradata.com/healthz"
 id = "a6f2a8b4-0c72-402e-b820-90aedecea14f"
@@ -60,3 +70,8 @@ try:
     amphora.push_signals_dict_array(Signal)  
 except ApiException as e:
     print("Exception when calling AmphoraeApi: %s\n" % e)
+
+end = timeit.timeit()
+mlflow.log_metric("time_to_complete", end - start) 
+mlflow.log_metric("run_complete",1)
+mlflow.end_run()
