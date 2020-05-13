@@ -18,10 +18,10 @@ from amphora_api_client.rest import ApiException
 from amphora_api_client.configuration import Configuration
 import pandas as pd
 import numpy as np
-import timeit
+import time
 import mlflow
 
-start = timeit.timeit()
+start = time.time()
 sep='_'
 mlflow.set_tracking_uri("http://aci-mlflow-dns.australiaeast.azurecontainer.io:5000/")
 runName = sep.join(['Job_at',str(datetime.utcnow())])
@@ -71,7 +71,7 @@ try:
 except ApiException as e:
     print("Exception when calling AmphoraeApi: %s\n" % e)
 
-end = timeit.timeit()
+end = time.time()
 mlflow.log_metric("time_to_complete", end - start) 
 mlflow.log_metric("run_complete",1)
 mlflow.end_run()
