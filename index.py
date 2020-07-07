@@ -29,7 +29,7 @@ mlflow.start_run(experiment_id=5, run_name =runName)
 mlflow.log_metric("run_complete",0)
 mlflow.log_metric("time_to_complete", 0)
 
-ad_url = "https://beta.amphoradata.com/healthz"
+ad_url = "https://app.amphoradata.com/healthz"
 id = "a6f2a8b4-0c72-402e-b820-90aedecea14f"
 
 def get_isup():
